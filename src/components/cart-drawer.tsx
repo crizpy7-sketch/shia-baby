@@ -99,7 +99,7 @@ export function CartDrawer({ open, onClose }: { open: boolean; onClose: () => vo
               <span className="tabular-nums font-medium">{formatMoney(tts.total)}</span>
             </div>
             <Button asChild className="w-full" size="lg">
-              <Link to="/cart" onClick={onClose}>
+              <Link to="/cart" search={{}} onClick={onClose}>
                 {t(UI.viewBag)}
               </Link>
             </Button>

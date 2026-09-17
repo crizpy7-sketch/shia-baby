@@ -1,17 +1,23 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { Button } from "@/components/ui/button";
 import { getProduct } from "@/lib/catalog";
 import { asset } from "@/lib/assets";
+import { startSquareCheckout, squareCheckoutReady } from "@/lib/checkout";
 import { totals, useCart } from "@/lib/cart";
 import { useLocale, UI } from "@/lib/locale";
 import { formatMoney } from "@/lib/utils";
 
 export const Route = createFileRoute("/cart")({
+  validateSearch: (s: Record<string, unknown>): { paid?: boolean } => {
+    if (s.paid === "1" || s.paid === true) return { paid: true };
+    return {};
+  },
   component: CartPage,
 });
 
 function CartPage() {
+  const { paid } = Route.useSearch();
   const { t, locale } = useLocale();
   const lines = useCart((s) => s.lines).filter((l) => getProduct(l.slug));
   const wrap = useCart((s) => s.wrap);
@@ -21,11 +27,22 @@ function CartPage() {
   const setNote = useCart((s) => s.setNote);
   const clear = useCart((s) => s.clear);
   const tts = totals(lines, wrap);
-  const [placed, setPlaced] = useState(false);
-  const [name, setName] = useState("");
   const [email, setEmail] = useState("");
+  const [busy, setBusy] = useState(false);
+  const [error, setError] = useState("");
+  const [squareOn, setSquareOn] = useState<boolean | null>(null);
 
-  if (placed) {
+  useEffect(() => {
+    if (paid) clear();
+  }, [paid, clear]);
+
+  useEffect(() => {
+    squareCheckoutReady()
+      .then((r) => setSquareOn(r.ready))
+      .catch(() => setSquareOn(false));
+  }, []);
+
+  if (paid) {
     return (
       <div className="mx-auto max-w-lg px-4 py-24 text-center">
         <p className="text-[11px] uppercase tracking-[0.18em] text-muted">
@@ -36,8 +53,8 @@ function CartPage() {
         </h1>
         <p className="mt-4 text-ink-soft">
           {locale === "es"
-            ? "Este es el mostrador en línea — un pedido de demostración. En shiababyshop.com te escribimos para confirmar."
-            : "This is the online counter — a demonstration order. On shiababyshop.com we write you to confirm."}
+            ? "Square ya cobró el pedido. Te llega un recibo por correo. El osito va en cada caja."
+            : "Square has the payment. A receipt is on its way. The bear goes in every box."}
         </p>
         <Button asChild className="mt-8">
           <Link to="/shop">{t(UI.startShopping)}</Link>
@@ -130,19 +147,27 @@ function CartPage() {
         {lines.length > 0 ? (
           <form
             className="mt-6 space-y-3"
-            onSubmit={(e) => {
+            onSubmit={async (e) => {
               e.preventDefault();
-              clear();
-              setPlaced(true);
+              setError("");
+              setBusy(true);
+              try {
+                const { url } = await startSquareCheckout({
+                  data: {
+                    lines: lines.map((l) => ({ slug: l.slug, size: l.size, qty: l.qty })),
+                    wrap,
+                    note,
+                    email,
+                    origin: window.location.origin,
+                  },
+                });
+                window.location.assign(url);
+              } catch (err) {
+                setBusy(false);
+                setError(err instanceof Error ? err.message : "Checkout failed.");
+              }
             }}
           >
-            <input
-              required
-              value={name}
-              onChange={(e) => setName(e.target.value)}
-              placeholder={locale === "es" ? "Nombre" : "Name"}
-              className="h-12 w-full rounded-md border border-line px-3 text-sm outline-none focus:border-navy/40"
-            />
             <input
               required
               type="email"
@@ -151,13 +176,24 @@ function CartPage() {
               placeholder="Email"
               className="h-12 w-full rounded-md border border-line px-3 text-sm outline-none focus:border-navy/40"
             />
-            <Button type="submit" className="w-full" size="lg">
-              {t(UI.checkout)}
+            <Button type="submit" className="w-full" size="lg" disabled={busy || squareOn === false}>
+              {busy
+                ? locale === "es"
+                  ? "Abriendo Square…"
+                  : "Opening Square…"
+                : locale === "es"
+                  ? "Pagar con Square"
+                  : "Pay with Square"}
             </Button>
+            {error ? <p className="text-xs text-navy">{error}</p> : null}
             <p className="text-xs text-muted">
-              {locale === "es"
-                ? "Demostración del mostrador. No se cobra en esta vista previa."
-                : "A demonstration of the counter. Nothing is charged in this preview."}
+              {squareOn
+                ? locale === "es"
+                  ? "Te llevamos a Square para la tarjeta, Apple Pay e impuesto. El pedido entra en tu mismo mostrador."
+                  : "You’ll finish on Square — card, Apple Pay, tax. The order lands in the same Square account as the old shop."
+                : locale === "es"
+                  ? "Square aún no está conectado en esta vista. En el sitio publicado, Checkout abre Square."
+                  : "Square isn’t connected on this preview. On the published shop, Checkout opens Square."}
             </p>
           </form>
         ) : null}
