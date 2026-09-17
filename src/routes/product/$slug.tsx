@@ -3,6 +3,7 @@ import { createFileRoute, Link, notFound } from "@tanstack/react-router";
 import { ProductCard } from "@/components/product-card";
 import { Button } from "@/components/ui/button";
 import { getProduct, ROOMS } from "@/lib/catalog";
+import { asset } from "@/lib/assets";
 import { useCart } from "@/lib/cart";
 import { useLocale, UI } from "@/lib/locale";
 import { formatMoney } from "@/lib/utils";
@@ -41,7 +42,7 @@ function ProductPage() {
 
       <div className="grid gap-10 lg:grid-cols-2">
         <div className="overflow-hidden rounded-xl bg-paper-deep">
-          <img src={product.image} alt={t(product.name)} className="aspect-[3/4] w-full object-cover" />
+          <img src={asset(product.image)} alt={t(product.name)} className="aspect-[3/4] w-full object-cover" />
         </div>
         <div>
           <p className="text-[11px] uppercase tracking-[0.18em] text-muted">{t(room.name)}</p>

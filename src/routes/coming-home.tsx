@@ -2,6 +2,7 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { ProductCard, ProductGrid } from "@/components/product-card";
 import { Button } from "@/components/ui/button";
 import { COMING_HOME_OUTFITS, filterProducts, getProduct } from "@/lib/catalog";
+import { asset } from "@/lib/assets";
 import { useLocale, UI } from "@/lib/locale";
 
 export const Route = createFileRoute("/coming-home")({
@@ -22,7 +23,7 @@ function ComingHome() {
     <div>
       <section className="relative overflow-hidden bg-navy">
         <img
-          src={hero?.image ?? "/images/hero-teddy-poster.jpg"}
+          src={asset(hero?.image ?? "/images/hero-teddy-poster.jpg")}
           alt=""
           className="h-80 w-full object-cover opacity-50 md:h-96"
         />

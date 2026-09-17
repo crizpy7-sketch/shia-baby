@@ -2,6 +2,7 @@ import { useState } from "react";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { Button } from "@/components/ui/button";
 import { getProduct } from "@/lib/catalog";
+import { asset } from "@/lib/assets";
 import { totals, useCart } from "@/lib/cart";
 import { useLocale, UI } from "@/lib/locale";
 import { formatMoney } from "@/lib/utils";
@@ -63,7 +64,7 @@ function CartPage() {
               if (!p) return null;
               return (
                 <li key={line.id} className="flex gap-4 py-5">
-                  <img src={p.image} alt="" className="size-24 rounded-md object-cover" />
+                  <img src={asset(p.image)} alt="" className="size-24 rounded-md object-cover" />
                   <div className="flex-1">
                     <Link to="/product/$slug" params={{ slug: p.slug }} className="font-display text-lg">
                       {p.name[locale]}

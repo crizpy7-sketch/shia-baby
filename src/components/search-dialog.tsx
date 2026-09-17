@@ -2,6 +2,7 @@ import { useEffect, useMemo, useState } from "react";
 import { Link, useNavigate } from "@tanstack/react-router";
 import { Search, X } from "lucide-react";
 import { filterProducts } from "@/lib/catalog";
+import { asset } from "@/lib/assets";
 import { useLocale, UI } from "@/lib/locale";
 import { formatMoney } from "@/lib/utils";
 import { Button } from "./ui/button";
@@ -67,7 +68,7 @@ export function SearchDialog({ open, onClose }: { open: boolean; onClose: () => 
               onClick={onClose}
               className="flex items-center gap-3 rounded-md px-3 py-2 hover:bg-paper-deep"
             >
-              <img src={p.image} alt="" className="size-14 rounded-sm object-cover" />
+              <img src={asset(p.image)} alt="" className="size-14 rounded-sm object-cover" />
               <div className="min-w-0">
                 <p className="truncate font-display text-[15px]">{p.name[locale]}</p>
                 <p className="text-xs text-muted">

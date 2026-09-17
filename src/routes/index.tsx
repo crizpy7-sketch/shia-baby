@@ -4,6 +4,7 @@ import { HeroBear } from "@/components/hero-bear";
 import { ProductGrid } from "@/components/product-card";
 import { Button } from "@/components/ui/button";
 import { PRODUCTS, PRIMARY_ROOMS, PRIMARY_SIZES, SIZE_LABEL } from "@/lib/catalog";
+import { asset } from "@/lib/assets";
 import { useLocale, UI } from "@/lib/locale";
 
 export const Route = createFileRoute("/")({ component: Home });
@@ -33,7 +34,7 @@ function Home() {
             <Link key={r.id} to="/shop/$room" params={{ room: r.id }} className="group block">
               <div className="overflow-hidden rounded-lg bg-paper-deep">
                 <img
-                  src={r.image}
+                  src={asset(r.image)}
                   alt=""
                   className="aspect-[4/5] w-full object-cover transition-transform duration-500 group-hover:scale-[1.04]"
                 />
@@ -82,7 +83,7 @@ function Home() {
       </section>
 
       <section className="grid md:grid-cols-2">
-        <img src="/images/wrap.jpg" alt="" className="h-72 w-full object-cover md:h-full" />
+        <img src={asset("/images/wrap.jpg")} alt="" className="h-72 w-full object-cover md:h-full" />
         <div className="flex flex-col justify-center bg-navy px-8 py-16 text-cream md:px-16">
           <p className="text-[11px] uppercase tracking-[0.18em] text-cream/50">{t(UI.giftWrap)}</p>
           <h2 className="mt-3 font-display text-3xl md:text-4xl">
@@ -116,7 +117,7 @@ function Home() {
             {t(UI.theHouse)} <ArrowRight className="size-4" />
           </Link>
         </div>
-        <img src="/images/house.jpg" alt="" className="aspect-[16/10] w-full rounded-xl object-cover" />
+        <img src={asset("/images/house.jpg")} alt="" className="aspect-[16/10] w-full rounded-xl object-cover" />
       </section>
 
       <section className="border-t border-line">

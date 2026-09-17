@@ -1,5 +1,6 @@
 import { Link } from "@tanstack/react-router";
 import type { Product } from "@/lib/catalog";
+import { asset } from "@/lib/assets";
 import { useLocale, UI } from "@/lib/locale";
 import { formatMoney } from "@/lib/utils";
 
@@ -13,7 +14,7 @@ export function ProductCard({ product }: { product: Product }) {
     >
       <div className="relative overflow-hidden rounded-lg bg-paper-deep">
         <img
-          src={product.image}
+          src={asset(product.image)}
           alt={t(product.name)}
           className={
             product.image.includes("teddy.png")

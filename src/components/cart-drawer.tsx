@@ -1,6 +1,7 @@
 import { Link } from "@tanstack/react-router";
 import { X } from "lucide-react";
 import { getProduct } from "@/lib/catalog";
+import { asset } from "@/lib/assets";
 import { cartCount, totals, useCart } from "@/lib/cart";
 import { useLocale, UI } from "@/lib/locale";
 import { formatMoney } from "@/lib/utils";
@@ -50,7 +51,7 @@ export function CartDrawer({ open, onClose }: { open: boolean; onClose: () => vo
                 if (!p) return null;
                 return (
                   <li key={line.id} className="flex gap-3">
-                    <img src={p.image} alt="" className="size-20 rounded-md object-cover" />
+                    <img src={asset(p.image)} alt="" className="size-20 rounded-md object-cover" />
                     <div className="min-w-0 flex-1">
                       <p className="font-display leading-snug">{p.name[locale]}</p>
                       <p className="text-xs text-muted">{line.size}</p>

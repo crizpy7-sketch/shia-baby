@@ -1,5 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { Button } from "@/components/ui/button";
+import { asset } from "@/lib/assets";
 import { useLocale, UI } from "@/lib/locale";
 
 export const Route = createFileRoute("/the-house")({
@@ -34,7 +35,7 @@ function TheHouse() {
   return (
     <div>
       <section className="relative">
-        <img src="/images/house.jpg" alt="" className="h-80 w-full object-cover md:h-[28rem]" />
+        <img src={asset("/images/house.jpg")} alt="" className="h-80 w-full object-cover md:h-[28rem]" />
         <div className="absolute inset-0 bg-navy/35" />
         <div className="absolute inset-0 mx-auto flex max-w-6xl flex-col justify-end px-4 pb-12">
           <p className="text-[11px] uppercase tracking-[0.18em] text-cream/70">
@@ -74,7 +75,7 @@ function TheHouse() {
         </div>
       </section>
       <section className="mx-auto grid max-w-6xl items-center gap-10 px-4 py-16 md:grid-cols-2">
-        <img src="/images/bear.jpg" alt="" className="rounded-xl object-cover" />
+        <img src={asset("/images/bear.jpg")} alt="" className="rounded-xl object-cover" />
         <div>
           <h2 className="font-display text-3xl">
             {locale === "es" ? "El osito va en cada caja." : "The bear goes in every box."}

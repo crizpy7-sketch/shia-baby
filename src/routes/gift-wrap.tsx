@@ -1,6 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { Button } from "@/components/ui/button";
 import { WRAP_PRICE } from "@/lib/catalog";
+import { asset } from "@/lib/assets";
 import { useCart } from "@/lib/cart";
 import { useLocale, UI } from "@/lib/locale";
 import { formatMoney } from "@/lib/utils";
@@ -16,7 +17,7 @@ function GiftWrap() {
   return (
     <div>
       <section className="grid md:grid-cols-2">
-        <img src="/images/wrap.jpg" alt="" className="h-80 w-full object-cover md:h-[32rem]" />
+        <img src={asset("/images/wrap.jpg")} alt="" className="h-80 w-full object-cover md:h-[32rem]" />
         <div className="flex flex-col justify-center px-6 py-12 md:px-14">
           <p className="text-[11px] uppercase tracking-[0.18em] text-muted">
             {locale === "es" ? "El mostrador" : "The counter"}

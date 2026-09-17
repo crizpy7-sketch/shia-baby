@@ -2,6 +2,7 @@ import { createFileRoute, Link, notFound } from "@tanstack/react-router";
 import { FilterBar } from "@/components/filter-bar";
 import { ProductGrid } from "@/components/product-card";
 import { ROOM_COPY, ROOMS, filterProducts, isRoom } from "@/lib/catalog";
+import { asset } from "@/lib/assets";
 import { useLocale, UI } from "@/lib/locale";
 import { parseShopSearch } from "@/lib/shop-search";
 
@@ -23,7 +24,7 @@ function RoomPage() {
   return (
     <div>
       <section className="relative h-72 overflow-hidden bg-navy md:h-80">
-        <img src={meta.image} alt="" className="h-full w-full object-cover opacity-50" />
+        <img src={asset(meta.image)} alt="" className="h-full w-full object-cover opacity-50" />
         <div className="absolute inset-0 bg-navy/40" />
         <div className="absolute inset-0 mx-auto flex max-w-6xl flex-col justify-end px-4 pb-10">
           <p className="text-[11px] uppercase tracking-[0.18em] text-cream/70">{t(copy.kicker)}</p>

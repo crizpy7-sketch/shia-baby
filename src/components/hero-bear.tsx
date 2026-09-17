@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import { Link } from "@tanstack/react-router";
 import { ArrowRight, Play } from "lucide-react";
 import { useLocale } from "@/lib/locale";
+import { asset } from "@/lib/assets";
 import { cn } from "@/lib/utils";
 
 const SLIDES = [
@@ -69,7 +70,7 @@ export function HeroBear() {
         <div className="order-1 aspect-square w-full lg:order-2 lg:aspect-auto lg:h-[calc(100svh-6.5rem)]">
           <div className="relative h-full w-full overflow-hidden bg-paper">
             <img
-              src="/images/hero-teddy-poster.jpg"
+              src={asset("/images/hero-teddy-poster.jpg")}
               alt="Shia Baby teddy"
               className="absolute inset-0 h-full w-full object-contain object-center lg:object-cover"
               draggable={false}
@@ -78,8 +79,8 @@ export function HeroBear() {
             <video
               ref={videoRef}
               className="absolute inset-0 h-full w-full object-contain object-center lg:object-cover motion-reduce:hidden"
-              src="/videos/hero-teddy.mp4"
-              poster="/images/hero-teddy-poster.jpg"
+              src={asset("/videos/hero-teddy.mp4")}
+              poster={asset("/images/hero-teddy-poster.jpg")}
               autoPlay
               muted
               loop
